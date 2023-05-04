@@ -13,6 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/register', require('./src/routes/auth/register.router'));
+app.use('/login', require('./src/routes/auth/login.router'));
+app.use('/logout', require('./src/routes/auth/logout.router'));
+
 app.use('/table', require('./src/routes/table.router'));
 
 // catch 404 and forward to error handler

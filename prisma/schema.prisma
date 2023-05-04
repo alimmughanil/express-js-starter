@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url   = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -17,38 +17,35 @@ enum Role {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name  String
-  phone String? @unique
-  email String? @unique
-  password String?
-  role Role @default(user)
+  id             Int      @id @default(autoincrement())
+  name           String
+  phone          String?  @unique
+  email          String?  @unique
+  password       String?
+  role           Role     @default(user)
   remember_token String?
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now())
 
-  auth Auth[]
+  auth  Auth[]
   table Table[]
 }
+
 model Auth {
-  id Int @id @default(autoincrement())
-  user User? @relation(fields: [user_id], references: [id])
-  user_id Int
-  access_token String
+  id            Int      @id @default(autoincrement())
+  user          User?    @relation(fields: [user_id], references: [id])
+  user_id       Int
   refresh_token String
-  is_expire Boolean @default(false)
-  refresh_at DateTime
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
 }
 
-
 model Table {
-  id Int @id @default(autoincrement())
-  user User? @relation(fields: [user_id], references: [id], onDelete: NoAction)
-  user_id Int
-  table_data Json
+  id           Int      @id @default(autoincrement())
+  user         User?    @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  user_id      Int
+  table_data   Json
   table_number Int
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now())
 }

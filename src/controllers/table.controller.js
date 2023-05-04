@@ -11,6 +11,7 @@ exports.get = async (req, res, next) => {
 	}
 };
 exports.create = async (req, res, next) => {
+	req.body.user_id = req.user.id;
 	try {
 		const validated = validationResult(req);
 		if (!validated.isEmpty()) res.json(response(400, 'Harap masukan data dengan benar', validated));

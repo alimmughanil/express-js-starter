@@ -8,7 +8,7 @@ const response = (status, message, data = null, meta = null) => {
 	if (data) res.payload.data = data;
 	if (meta) res.meta = meta;
 
-	return { res };
+	return res;
 };
 
 module.exports = {
