@@ -3,6 +3,13 @@ const { response } = require('../utils/response');
 const authService = require('../services/auth/auth.service');
 
 const verifyToken = async (req, res, next) => {
+	const isJWTAuth = process.env.JWT_AUTH
+	if (isJWTAuth == "false") {
+		let user = { id: 1 }
+		req.user = user;
+		return next()
+	}
+
 	const auth = req.headers['authorization'];
 	if (typeof auth == 'undefined') return res.json(response(403, 'Akses token tidak ditemukan'));
 	const bearer = auth.split(' ');
@@ -13,6 +20,8 @@ const verifyToken = async (req, res, next) => {
 		next();
 	} catch (error) {
 		const user = jwt.decode(token)
+		if (!user) return res.json(response(403, 'Akses token tidak ditemukan'));
+
 		const checkAuthenticated = await authService.getByUserId(user.id);
 		if (checkAuthenticated.payload.status != 200) return res.json(response(403, 'Akses token tidak valid. Harap login kembali'));
 
